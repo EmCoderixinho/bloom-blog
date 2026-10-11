@@ -14,6 +14,19 @@ Without Firebase credentials the site runs on the sample content in `src/lib/dat
 To use Firestore, copy `.env.example` to `.env.local` and fill in the service-account values
 (or run `npm run env:from-key -- <path-to-service-account.json>`).
 
+## Checks
+
+```bash
+npm run typecheck
+npm run lint
+npm test           # Vitest unit tests (src/**/*.test.ts)
+npm run test:e2e   # Playwright smoke test at 390px and 1440px
+```
+
+`test:e2e` runs `next build` and `next start` on port 3100 with the Firebase variables blanked, so it always uses the sample content, even with `.env.local` present. It leaves a sample-data build in `.next`, so run `npm run build` again before using `npm start` locally. Install the browser once with `npx playwright install chromium`.
+
+CI (`.github/workflows/ci.yml`) runs all of these on pushes and PRs to `master`, without Firebase secrets.
+
 ## Deploy (Netlify, free)
 
 The site is hosted on Netlify's free plan, which allows commercial use, at https://cute-alfajores-327dc1.netlify.app. Netlify detects Next.js and runs it on Node.js through its OpenNext adapter: Cache Components, `revalidateTag` and `next/image` (through Netlify Image CDN) all work without extra config. The free plan has 300 credits a month. If they run out, the site pauses until the next month; nothing is ever charged without a card.
@@ -47,5 +60,6 @@ npm run deploy    # rebuild and redeploy the connected branch on Netlify (upload
 - `src/components/home/`: featured hero, category stories, most-read list.
 - `src/app/`: routes: `/`, `/objava/[slug]`, `/kategorija/[slug]`, `/autor/[slug]`, `/pretraga`, the footer pages (`/o-nama`, `/kontakt`, `/marketing`, `/uslovi-koristenja`, `/privatnost`), plus `sitemap.xml`, `robots.txt`, `feed.xml` and generated Open Graph images.
 - `src/lib/static-pages.ts`: copy for the footer pages (draft placeholders marked `draft: true`).
+- `e2e/`: Playwright smoke test. Unit tests sit next to the code they test.
 - `netlify.toml`: Netlify build settings.
 - `docs/TICKETS.md`: the backlog.

@@ -2,26 +2,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { HeartIcon, LayersIcon } from "lucide-react"
 import { formatNumber } from "@/lib/format"
+import { overflowClass } from "@/lib/grid"
 import { routes } from "@/lib/site"
 import { cn } from "@/lib/utils"
 import type { PostView } from "@/lib/types"
-
-const MOBILE_COLUMNS = 3
-const DESKTOP_COLUMNS = 5
-
-/** Rows that end short at a breakpoint, trimmed so the grid stays a clean rectangle. */
-function overflowClass(index: number, count: number) {
-  const fits = (columns: number) => {
-    const full = Math.floor(count / columns) * columns
-    return full === 0 || index < full
-  }
-  const mobile = fits(MOBILE_COLUMNS)
-  const desktop = fits(DESKTOP_COLUMNS)
-  if (!mobile && !desktop) return "hidden"
-  if (!mobile) return "max-lg:hidden"
-  if (!desktop) return "lg:hidden"
-  return undefined
-}
 
 /**
  * Instagram profile grid: 3 columns on mobile, 5 on desktop, portrait 3:4 tiles.

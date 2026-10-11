@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
     "env:from-key": "node scripts/env-from-key.mjs",
     "deploy:firestore": "firebase deploy --only firestore:rules,firestore:indexes --project bloom-blog-ba",
@@ -31,8 +34,9 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.16.2",
+    "@playwright/test": "^1.64.0",
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
@@ -41,6 +45,7 @@
     "netlify-cli": "^27.12.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^5.0.3"
   }
 }
