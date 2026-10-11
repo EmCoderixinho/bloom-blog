@@ -1,0 +1,15 @@
+# Next.js runtime for Netlify (OpenNext adapter). Declared explicitly: this project was
+# created without it, so builds published .next as plain files with no server function.
+# Secrets (FIREBASE_*) and NEXT_PUBLIC_SITE_URL live in the site's environment variables,
+# set with `netlify env:set`, never in this file. See README.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  # Netlify's secret scan checks every env var value. The Firebase project ID is public
+  # (it's in .firebaserc and package.json); the key and client email are still scanned.
+  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_PROJECT_ID"

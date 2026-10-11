@@ -6,6 +6,13 @@ export const siteConfig = {
   description:
     "Bloom je online magazin o ljepoti, zdravlju, modi i lifestyleu: savjeti, trendovi i inspiracija za svaki dan.",
   locale: "bs_BA",
+  // Placeholder contact details (draft): the owner replaces these before launch.
+  contact: {
+    email: "redakcija@bloom.ba",
+    marketingEmail: "marketing@bloom.ba",
+    phone: "+387 33 000 000",
+    address: "Sarajevo, Bosna i Hercegovina",
+  },
   social: {
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",
@@ -19,6 +26,17 @@ export const siteConfig = {
     { label: "Privatnost", href: "/privatnost" },
   ],
 } as const
+
+/**
+ * `alternates` for page metadata. A page's `alternates` replaces the root layout's
+ * entirely, so every page sets the RSS link along with its canonical URL.
+ */
+export function pageAlternates(canonical?: string) {
+  return {
+    canonical,
+    types: { "application/rss+xml": [{ url: "/feed.xml", title: `${siteConfig.name} RSS` }] },
+  }
+}
 
 export const routes = {
   home: () => "/",

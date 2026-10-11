@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getPost, getPosts, getRelatedPosts } from "@/lib/data"
 import { formatDate } from "@/lib/format"
-import { routes, siteConfig } from "@/lib/site"
+import { pageAlternates, routes, siteConfig } from "@/lib/site"
 import type { PostView } from "@/lib/types"
 
 export async function generateStaticParams() {
@@ -29,16 +29,17 @@ export async function generateMetadata({ params }: PageProps<"/objava/[slug]">):
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: routes.post(post.slug) },
+    alternates: pageAlternates(routes.post(post.slug)),
     openGraph: {
       type: "article",
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
       title: post.title,
       description: post.excerpt,
       publishedTime: post.publishedAt,
       authors: [post.authorRef.name],
       section: post.categoryRef.name,
       tags: post.tags,
-      images: [{ url: post.cover.src, width: post.cover.width, height: post.cover.height, alt: post.cover.alt }],
     },
     twitter: { card: "summary_large_image" },
   }

@@ -3,7 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { siteConfig } from "@/lib/site"
+import { pageAlternates, siteConfig } from "@/lib/site"
 import "./globals.css"
 
 // Geometric grotesk for the "soft structuralism" look (bold, tight display headings).
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  alternates: pageAlternates(),
   openGraph: {
     type: "website",
     siteName: siteConfig.name,

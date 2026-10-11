@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getAuthor, getAuthors, getPosts } from "@/lib/data"
 import { formatNumber } from "@/lib/format"
-import { routes } from "@/lib/site"
+import { pageAlternates, routes } from "@/lib/site"
 
 export async function generateStaticParams() {
   return (await getAuthors()).map((author) => ({ slug: author.slug }))
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/autor/[slug]">): 
   const { slug } = await params
   const author = await getAuthor(slug)
   if (!author) return {}
-  return { title: author.name, description: author.bio, alternates: { canonical: routes.author(slug) } }
+  return { title: author.name, description: author.bio, alternates: pageAlternates(routes.author(slug)) }
 }
 
 export default function AuthorPage(props: PageProps<"/autor/[slug]">) {

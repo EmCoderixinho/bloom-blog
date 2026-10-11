@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getCategories, getCategory, getPosts } from "@/lib/data"
-import { routes } from "@/lib/site"
+import { pageAlternates, routes } from "@/lib/site"
 
 // 15 fills whole rows at both 3 and 5 columns.
 const PAGE_SIZE = 15
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/kategorija/[slug]
   return {
     title: found.category.name,
     description: found.category.description,
-    alternates: { canonical: routes.category(slug) },
+    alternates: pageAlternates(routes.category(slug)),
   }
 }
 

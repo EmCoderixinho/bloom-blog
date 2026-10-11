@@ -44,3 +44,6 @@ next-env.d.ts
 # Firebase service-account keys
 *-firebase-adminsdk-*.json
 service-account*.json
+
+# Netlify CLI
+.netlify
