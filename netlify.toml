@@ -1,0 +1,6 @@
+# Netlify picks up Next.js automatically (OpenNext adapter, @netlify/plugin-nextjs).
+# Secrets (FIREBASE_*) and NEXT_PUBLIC_SITE_URL live in the site's environment variables,
+# set with `netlify env:set`, never in this file. See README.
+[build]
+  command = "npm run build"
+  publish = ".next"
