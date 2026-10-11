@@ -1,0 +1,61 @@
+rules_version = '2';
+
+// The Next.js server reads and writes through the Admin SDK, which bypasses
+// these rules. They govern direct client access (the future admin UI, C-1).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function isStaff() {
+      return isAdmin() || (request.auth != null && request.auth.token.editor == true);
+    }
+
+    function validPost() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['title', 'excerpt', 'body', 'cover', 'gallery', 'category', 'tags', 'author',
+          'status', 'publishedAt', 'featured', 'likes', 'views', 'readingMinutes'])
+        && data.title is string && data.title.size() > 0
+        && data.body is string
+        && data.category is string
+        && data.author is string
+        && data.status in ['draft', 'published']
+        && data.featured is bool;
+    }
+
+    // Counters are maintained by the server; editors can't inflate them.
+    function countersUnchanged() {
+      return resource == null
+        ? request.resource.data.get('likes', 0) == 0 && request.resource.data.get('views', 0) == 0
+        : !request.resource.data.diff(resource.data).affectedKeys().hasAny(['likes', 'views']);
+    }
+
+    match /posts/{slug} {
+      allow read: if resource.data.status == 'published' || isStaff();
+      allow create, update: if isStaff() && validPost() && (isAdmin() || countersUnchanged());
+      allow delete: if isAdmin();
+    }
+
+    // Deleting or renaming a category or author hides its posts, so only admins may write them.
+    match /categories/{slug} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /authors/{slug} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Signups go through a server action only; admins can read the list.
+    match /subscribers/{email} {
+      allow read: if request.auth != null && request.auth.token.admin == true;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
