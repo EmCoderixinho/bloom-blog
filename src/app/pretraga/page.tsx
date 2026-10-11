@@ -6,20 +6,9 @@ import { PostGrid } from "@/components/post/post-grid"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getPosts } from "@/lib/data"
-import type { PostView } from "@/lib/types"
+import { matches, searchTerms } from "@/lib/search"
 
 export const metadata: Metadata = { title: "Pretraga", robots: { index: false } }
-
-/** Lowercase and strip diacritics so "koza" matches "koža". */
-function normalize(text: string) {
-  return text.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/đ/g, "d")
-}
-
-// Simple in-memory match over recent posts; replace with a search index (ticket B-8) as content grows.
-function matches(post: PostView, terms: string[]) {
-  const haystack = normalize([post.title, post.excerpt, post.categoryRef.name, ...post.tags].join(" "))
-  return terms.every((term) => haystack.includes(term))
-}
 
 export default function SearchPage(props: PageProps<"/pretraga">) {
   return (
@@ -34,7 +23,7 @@ export default function SearchPage(props: PageProps<"/pretraga">) {
 async function SearchResults({ searchParams }: Pick<PageProps<"/pretraga">, "searchParams">) {
   const { q } = await searchParams
   const query = (Array.isArray(q) ? q[0] : q)?.trim() ?? ""
-  const terms = normalize(query).split(/\s+/).filter(Boolean)
+  const terms = searchTerms(query)
   const results = terms.length ? (await getPosts({ limit: 200 })).items.filter((post) => matches(post, terms)) : []
 
   return (

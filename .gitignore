@@ -45,5 +45,14 @@ next-env.d.ts
 *-firebase-adminsdk-*.json
 service-account*.json
 
+# Local batch briefs for per-chat work (not shared)
+docs/batches/
+
 # Netlify CLI
 .netlify
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
