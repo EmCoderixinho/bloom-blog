@@ -48,7 +48,7 @@ Status: `[x]` done · `[~]` in progress · `[ ]` todo
 
 - [ ] **D-1 Tests**: Vitest for the data layer and utilities, Playwright smoke (home → category → post).
 - [ ] **D-2 CI**: GitHub Actions running lint, typecheck, test, build.
-- [~] **D-3 Deploy (free)**: Netlify free plan (commercial use allowed), Git-connected builds, env vars in Netlify, then a custom domain later (`*.netlify.app` until then). Vercel Hobby is ruled out because the site will run ads and Hobby is non-commercial only. Cloudflare Workers was tried and ruled out: `firebase-admin` can't load on workerd and PPR resume fails under OpenNext.
+- [x] **D-3 Deploy (free)**: Netlify free plan (commercial use allowed), Git-connected builds, env vars in Netlify, then a custom domain later (`*.netlify.app` until then). Vercel Hobby is ruled out because the site will run ads and Hobby is non-commercial only. Cloudflare Workers was tried and ruled out: `firebase-admin` can't load on workerd and PPR resume fails under OpenNext.
 - [ ] **D-6 Ads**: AdSense (free to join) with ad slots in the feed, the post body and the sidebar, kept compatible with the cookie consent from D-4.
 - [ ] **D-4 Analytics & consent**: GA4 (free) or Netlify/Cloudflare Web Analytics (check what the free plan includes), plus a cookie banner.
 - [ ] **D-5 Perf pass**: image sizes, LCP on the hero, bundle check.
