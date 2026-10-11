@@ -17,8 +17,10 @@ export function MobileNav({ categories }: { categories: Category[] }) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Otvori meni" className="lg:hidden" />}>
-        <MenuIcon className="size-6" />
+      <SheetTrigger
+        render={<Button variant="ghost" size="icon" aria-label="Otvori meni" className="size-10 rounded-full lg:hidden" />}
+      >
+        <MenuIcon className="size-5" strokeWidth={1.5} />
       </SheetTrigger>
       <SheetContent side="left" className="w-full max-w-sm overflow-y-auto">
         <SheetHeader>

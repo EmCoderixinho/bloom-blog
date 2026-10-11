@@ -136,7 +136,7 @@ async function RelatedPosts({ post }: { post: PostView }) {
   return (
     <section aria-labelledby="related" className="flex flex-col gap-6">
       <SectionHeading id="related" title={`Više iz kategorije ${post.categoryRef.name}`} href={routes.category(post.category)} />
-      <PostGrid posts={related} />
+      <PostGrid posts={related} balanced />
     </section>
   )
 }

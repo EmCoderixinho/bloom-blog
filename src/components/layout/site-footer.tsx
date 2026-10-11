@@ -13,9 +13,9 @@ export async function SiteFooter() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-16 border-t bg-surface-soft">
+    <footer className="mt-28 border-t bg-surface-soft">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-12 sm:px-6">
-        <section id="newsletter" className="flex scroll-mt-24 flex-col gap-6 rounded-2xl bg-muted p-6 sm:p-8 md:flex-row md:items-center md:justify-between">
+        <section id="newsletter" className="flex scroll-mt-24 flex-col gap-6 rounded-[2rem] bg-card p-6 ring-1 ring-foreground/5 sm:p-8 md:flex-row md:items-center md:justify-between">
           <div className="flex max-w-md flex-col gap-2">
             <h2 className="text-heading-xl">Bloom u vašem inboxu</h2>
             <p className="text-body">Najbolje priče sedmice, beauty otkrića i trendovi, svakog petka ujutro.</p>

@@ -10,6 +10,7 @@
   --font-sans: var(--font-sans);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-heading: var(--font-sans);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,9 +51,10 @@
   --color-body: var(--body);
 }
 
-/* Pinterest DESIGN.md tokens mapped onto shadcn variables. */
+/* Pinterest DESIGN.md tokens mapped onto shadcn variables; silver page ground
+   so white cards read as raised surfaces. */
 :root {
-  --background: #ffffff;
+  --background: #f2f2f0;
   --foreground: #211922;
   --card: #ffffff;
   --card-foreground: #211922;
@@ -143,21 +145,39 @@
 /* Display tiers carry Pinterest's tight negative tracking. */
 @utility text-display {
   font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.375rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -1.2px;
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
 }
 
 @utility text-heading-xl {
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -1.2px;
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
 }
 
 @utility scrollbar-none {
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+/* Heavy fade-up as an element scrolls into view. CSS scroll-driven, so no JS;
+   browsers without view timelines (or with reduced motion) show it statically. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-up var(--ease-spring) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
   }
 }

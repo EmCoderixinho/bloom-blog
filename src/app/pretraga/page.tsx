@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 import { SearchIcon } from "lucide-react"
 import { SearchForm } from "@/components/layout/search-form"
-import { Masonry, PinCard } from "@/components/post/pin-card"
+import { PostGrid } from "@/components/post/post-grid"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getPosts } from "@/lib/data"
@@ -55,11 +55,7 @@ async function SearchResults({ searchParams }: Pick<PageProps<"/pretraga">, "sea
           </EmptyHeader>
         </Empty>
       ) : (
-        <Masonry>
-          {results.map((post) => (
-            <PinCard key={post.slug} post={post} />
-          ))}
-        </Masonry>
+        <PostGrid posts={results} />
       )}
     </>
   )

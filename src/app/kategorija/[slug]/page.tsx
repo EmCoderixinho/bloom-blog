@@ -4,14 +4,15 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import { FileTextIcon } from "lucide-react"
 import { Pager, parsePage } from "@/components/pager"
-import { Masonry, PinCard } from "@/components/post/pin-card"
+import { PostGrid } from "@/components/post/post-grid"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getCategories, getCategory, getPosts } from "@/lib/data"
 import { routes } from "@/lib/site"
 
-const PAGE_SIZE = 16
+// 15 fills whole rows at both 3 and 5 columns.
+const PAGE_SIZE = 15
 
 export async function generateStaticParams() {
   return (await getCategories()).map((category) => ({ slug: category.slug }))
@@ -111,11 +112,7 @@ async function CategoryPosts({ params, searchParams }: Pick<PageProps<"/kategori
 
   return (
     <div className="flex flex-col gap-10">
-      <Masonry>
-        {items.map((post) => (
-          <PinCard key={post.slug} post={post} />
-        ))}
-      </Masonry>
+      <PostGrid posts={items} />
       <Pager
         current={page}
         total={Math.ceil(total / PAGE_SIZE)}
@@ -136,9 +133,9 @@ function CategoryHeaderSkeleton() {
 
 function GridSkeleton() {
   return (
-    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-      {Array.from({ length: 8 }, (_, i) => (
-        <Skeleton key={i} className="aspect-4/5 rounded-xl" />
+    <div className="grid grid-cols-3 gap-0.5 max-sm:-mx-4 sm:gap-1 lg:grid-cols-5">
+      {Array.from({ length: 15 }, (_, i) => (
+        <Skeleton key={i} className="aspect-3/4 rounded-none" />
       ))}
     </div>
   )

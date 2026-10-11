@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/autor/[slug]">): 
 
 export default function AuthorPage(props: PageProps<"/autor/[slug]">) {
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6">
       <Suspense fallback={<Skeleton className="h-40 rounded-2xl" />}>
         <AuthorProfile params={props.params} />
       </Suspense>
@@ -40,7 +40,7 @@ async function AuthorProfile({ params }: Pick<PageProps<"/autor/[slug]">, "param
 
   return (
     <div className="flex flex-col gap-10">
-      <header className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-12 sm:px-8">
+      <header className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-12 sm:px-8">
         <AuthorAvatar author={author} size="lg" className="[&_[data-slot=avatar]]:size-28 sm:[&_[data-slot=avatar]]:size-36" />
         <div className="flex flex-col items-center gap-4 sm:items-start">
           <div className="flex flex-wrap items-center justify-center gap-3">

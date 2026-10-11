@@ -1,18 +1,28 @@
-import Link from "next/link"
-import { ArrowRightIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Eyebrow, PillLink } from "@/components/bezel"
 
-export function SectionHeading({ title, href, id }: { title: string; href?: string; id?: string }) {
+export function SectionHeading({
+  title,
+  href,
+  id,
+  eyebrow,
+}: {
+  title: string
+  href?: string
+  id?: string
+  eyebrow?: string
+}) {
   return (
     <div className="flex items-end justify-between gap-4">
-      <h2 id={id} className="text-heading-xl">
-        {title}
-      </h2>
+      <div className="flex flex-col gap-3">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <h2 id={id} className="text-heading-xl">
+          {title}
+        </h2>
+      </div>
       {href && (
-        <Button variant="secondary" nativeButton={false} render={<Link href={href} />}>
+        <PillLink href={href} tone="light" className="shrink-0">
           Više
-          <ArrowRightIcon data-icon="inline-end" />
-        </Button>
+        </PillLink>
       )}
     </div>
   )

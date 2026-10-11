@@ -2,8 +2,9 @@
 
 Lifestyle / beauty magazine blog for the BA market (references: ljepotaizdravlje.ba, bonjour.ba).
 
-**Stack:** Next.js 16 (App Router, RSC) · TypeScript · Tailwind v4 · shadcn/ui (base-nova) · Firebase (Firestore, Storage, Auth, Admin SDK) · hosting on Firebase App Hosting (or Vercel).
-**Design:** Pinterest DESIGN.md tokens (cream chrome, #e60023 single accent, 16/32px radii, Inter as the Pin Sans substitute). Posts are styled like Instagram posts.
+**Stack:** Next.js 16 (App Router, RSC) · TypeScript · Tailwind v4 · shadcn/ui (base-nova) · Firebase (Firestore, Auth, Admin SDK) on the free Spark plan.
+**Budget: zero.** Free tiers only and no billing account. Spark excludes Cloud Storage, App Hosting and Cloud Functions, so images go to Cloudinary's free tier and hosting is on a free tier (see D-3).
+**Design:** "soft structuralism" (high-end-visual-design skill): silver #f2f2f0 ground, white double-bezel cards, floating glass pill header, pill CTAs with a nested arrow, Plus Jakarta Sans, #e60023 accent, spring easing (`ease-spring`). Post listings use an Instagram profile grid (3 columns mobile, 5 desktop, 3:4 tiles, title overlay on hover).
 **UI language:** Bosnian.
 
 Status: `[x]` done · `[~]` in progress · `[ ]` todo
@@ -19,7 +20,7 @@ Status: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] **A-3 Data model + types**: `Category` (with optional parent), `Author`, `Post` (slug, title, excerpt, markdown body, cover + gallery images with aspect ratio, category, tags, author, status, publishedAt, featured, counters for likes/views).
 - [x] **A-4 Data layer**: `lib/data` repository that reads Firestore through the Admin SDK when credentials exist and otherwise falls back to built-in sample data, so the app runs with zero config.
   _AC:_ No page imports Firestore directly.
-- [ ] **A-5 Firebase project wiring**: create the project, add `.env.local`, Firestore indexes, security rules (public read for published posts only, writes for admins only), Storage rules, and a `npm run seed` script that pushes the sample data to Firestore.
+- [x] **A-5 Firebase project wiring**: project `bloom-blog-ba` (Spark, Firestore in europe-west3), `firebase.json`, rules, composite indexes, `npm run env:from-key`, `npm run seed`, `npm run deploy:firestore` (rules + indexes deployed and verified).
 
 ## Epic B: Public site
 
@@ -40,13 +41,14 @@ Status: `[x]` done · `[~]` in progress · `[ ]` todo
 
 - [ ] **C-1 Auth**: Firebase Auth (Google + email), `admin`/`editor` custom claims, session cookie, `/admin` guarded in a layout and in every server action.
 - [ ] **C-2 Post list**: table with status filter, search, edit/delete.
-- [ ] **C-3 Post editor**: title → slug, category, tags, excerpt, markdown body with preview, cover + gallery upload to Storage (client-side resize, aspect detection), draft/published/scheduled, featured toggle. On save, `revalidateTag` for the affected pages.
+- [ ] **C-3 Post editor**: title → slug, category, tags, excerpt, markdown body with preview, cover + gallery upload to Cloudinary's free tier (signed uploads from a server action, aspect detection), draft/published/scheduled (store `publishedAt` as a Firestore `Timestamp` and gate reads in rules and queries on `publishedAt <= now`, so scheduled posts aren't readable early), featured toggle. On save, `revalidateTag` for the affected pages.
 - [ ] **C-4 Categories & authors management.**
 
 ## Epic D: Quality & ops
 
 - [ ] **D-1 Tests**: Vitest for the data layer and utilities, Playwright smoke (home → category → post).
 - [ ] **D-2 CI**: GitHub Actions running lint, typecheck, test, build.
-- [ ] **D-3 Deploy**: Firebase App Hosting, env secrets, custom domain.
-- [ ] **D-4 Analytics & consent**: GA4/Plausible plus a cookie banner.
+- [ ] **D-3 Deploy (free)**: Cloudflare Workers via OpenNext (`@opennextjs/cloudflare`): free tier, commercial use allowed. Vercel Hobby is ruled out because the site will run ads and Hobby is non-commercial only. Env secrets, then a custom domain later (a free `*.workers.dev` subdomain until then).
+- [ ] **D-6 Ads**: AdSense (free to join) with ad slots in the feed, the post body and the sidebar, kept compatible with the cookie consent from D-4.
+- [ ] **D-4 Analytics & consent**: GA4 (free) or Vercel/Cloudflare Web Analytics (free), plus a cookie banner.
 - [ ] **D-5 Perf pass**: image sizes, LCP on the hero, bundle check.
